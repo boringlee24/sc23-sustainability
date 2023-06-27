@@ -1,0 +1,15 @@
+﻿Per component,type,Manufacturing gCO2,Packaging gCO2,Embodied Carbon gCO2,Frontier Num of Parts,LUMI Num of Parts,Perlmutter Num of Parts,TeraFLOPS (FP64),Bandwidth (GB/s)
+A100 PCIe 40GB,GPU,22456.568,3900,26356.568,0,0,6144,9.7,0
+AMD INSTINCT MI250X,GPU,27502.69029,3900,31402.69029,37632,10240,0,47.9,0
+V100 SXM2 32GB,GPU,16049.21643,3900,19949.21643,0,0,0,7.8,0
+AMD EPYC 7763,CPU,15577.54971,1350,16927.54971,9408,5632,7980,2.5,0
+AMD EPYC 7742,CPU,14231.34171,1350,15581.34171,0,0,0,2.3,0
+Intel(R) Xeon(R) Gold 6240R,CPU,9168.731429,150,9318.731429,0,0,0,0.5625,0
+SK Hynix 64GB DDR4,DRAM,4160,3000,7160,75264,27520,32128,0,42.6
+Seagate Nytro 3530 3.2TB,SSD,20348.928,339.8270976,20688.7551,18240,2240,11213,0,4
+Seagate Exos x16 16TB,HDD,21790.72,320.323584,22111.04358,44480,5120,0,0,0.256
+A100 PCIe 80GB,GPU,25056.568,3900,28956.568,0,0,1024,0,0
+,,,,,,,,,
+https://www.microway.com/knowledge-center-articles/detailed-specifications-of-the-amd-epyc-rome-cpus/,,,,,,,,,
+https://www.intel.com/content/dam/support/us/en/documents/processors/APP-for-Intel-Xeon-Processors.pdf,,,,,,,,,
+https://www.hpcwire.com/2021/03/15/amd-launches-epyc-milan-with-19-skus-for-hpc-enterprise-and-hyperscale/,,,,,,,,,
