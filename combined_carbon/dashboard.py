@@ -22,19 +22,19 @@ app.layout = html.Div([
         dcc.Graph(id='graph'),
         html.Div([
             html.Label('Carbon Intensity (gCO2/kWh): ', style={'fontSize': 20}),
-            dcc.Input(id='carbon-intensity-input', type='number', value=400, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),  # Add marginBottom here
+            dcc.Input(id='carbon-intensity-input', type='number', value=400, style={'height': '30px', 'width': '60px', 'marginBottom': '20px'}),  # Add marginBottom here
             html.Br(),
             html.Label('Power Consumption of Old Hardware (W): ', style={'fontSize': 20, 'marginTop': '20px'}),
-            dcc.Input(id='old-power-input', type='number', value=200, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+            dcc.Input(id='old-power-input', type='number', value=200, style={'height': '30px', 'width': '60px', 'marginBottom': '20px'}),
             html.Br(),
             html.Label('Power Consumption of New Hardware (W): ', style={'fontSize': 20, 'marginTop': '20px'}),
-            dcc.Input(id='new-power-input', type='number', value=160, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+            dcc.Input(id='new-power-input', type='number', value=160, style={'height': '30px', 'width': '60px', 'marginBottom': '20px'}),
             html.Br(),
             html.Label('Embodied Carbon of New Hardware (gCO2): ', style={'fontSize': 20, 'marginTop': '20px'}),
-            dcc.Input(id='embodied-carbon-input', type='number', value=24684, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+            dcc.Input(id='embodied-carbon-input', type='number', value=24684, style={'height': '30px', 'width': '60px', 'marginBottom': '20px'}),
             html.Br(),
             html.Label('Daily Usage Ratio: ', style={'fontSize': 20, 'marginTop': '20px'}),
-            dcc.Input(id='usage-input', type='number', value=0.4, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+            dcc.Input(id='usage-input', type='number', value=0.4, style={'height': '30px', 'width': '60px', 'marginBottom': '20px'}),
 
         ], style={'marginLeft': '0px', 'marginTop': '100px'}),
     ], style={'display': 'flex'})
