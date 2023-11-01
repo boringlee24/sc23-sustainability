@@ -1,89 +1,86 @@
 import dash
 from dash import html, dcc
 from dash.dependencies import Output, Input
-import random
-import threading
-import zmq
-import numpy as np
-import argparse
-import plotly.express as px
-import json
 import plotly.graph_objects as go
 
 app = dash.Dash(__name__)
-
-##data loading
-data = json.load(open('./operation_carbon_kWh_per_day.json'))
-operational_p100_v100_candle_p100=data["('p100', 'v100')"]["candle"]["p100"]
-operational_p100_v100_candle_v100=data["('p100', 'v100')"]["candle"]["v100"]
-operational_p100_v100_cv_p100=data["('p100', 'v100')"]["cv"]["p100"]
-operational_p100_v100_cv_v100=data["('p100', 'v100')"]["cv"]["v100"]
-operational_p100_v100_nlp_p100=data["('p100', 'v100')"]["nlp"]["p100"]
-operational_p100_v100_nlp_v100=data["('p100', 'v100')"]["nlp"]["v100"]
-operational_p100_a100_candle_p100=data["('p100', 'a100')"]["candle"]["p100"]
-operational_p100_a100_candle_a100=data["('p100', 'a100')"]["candle"]["a100"]
-operational_p100_a100_cv_p100=data["('p100', 'a100')"]["cv"]["p100"]
-operational_p100_a100_cv_a100=data["('p100', 'a100')"]["cv"]["a100"]
-operational_p100_a100_nlp_p100=data["('p100', 'a100')"]["nlp"]["p100"]
-operational_p100_a100_nlp_a100=data["('p100', 'a100')"]["nlp"]["a100"]
-operational_v100_a100_candle_v100=data["('v100', 'a100')"]["candle"]["v100"]
-operational_v100_a100_candle_a100=data["('v100', 'a100')"]["candle"]["a100"]
-operational_v100_a100_cv_v100=data["('v100', 'a100')"]["cv"]["v100"]
-operational_v100_a100_cv_a100=data["('v100', 'a100')"]["cv"]["a100"]
-operational_v100_a100_nlp_v100=data["('v100', 'a100')"]["nlp"]["v100"]
-operational_v100_a100_nlp_a100=data["('v100', 'a100')"]["nlp"]["a100"]
-data = json.load(open('./embodied_carbon_gCO2.json'))
-embodied_p100=data["p100"]
-embodied_v100=data["v100"]
-embodied_a100=data["a100"]
-data = json.load(open('./perf_gain.json'))
-perf_p100_v100_candle=data["('p100', 'v100')"]["candle"]
-perf_p100_v100_cv=data["('p100', 'v100')"]["cv"]
-perf_p100_v100_nlp=data["('p100', 'v100')"]["nlp"]
-perf_p100_a100_candle=data["('p100', 'a100')"]["candle"]
-perf_p100_a100_cv=data["('p100', 'a100')"]["cv"]
-perf_p100_a100_nlp=data["('p100', 'a100')"]["nlp"]
-perf_v100_a100_candle=data["('v100', 'a100')"]["candle"]
-perf_v100_a100_cv=data["('v100', 'a100')"]["cv"]
-perf_v100_a100_nlp=data["('v100', 'a100')"]["nlp"]
-
-carbon_intensity = 400
-per_day_candle=[100*((operational_p100_v100_candle_p100*carbon_intensity*i)-(operational_p100_v100_candle_v100*carbon_intensity*i + embodied_v100))/(operational_p100_v100_candle_p100*carbon_intensity*i)  for i in range(1,2000)]
-
-# fig = go.Figure()
+app.title = "Carbon Footprint Saving Dashboard for Hardware Upgrade"
 
 app.layout = html.Div([
-    dcc.Graph(id='graph'),
-    dcc.Interval(id='interval-component', interval=1*1000, n_intervals=0)
+    html.H1("Carbon Footprint Saving Dashboard for Hardware Upgrade", 
+            style={
+                'textAlign': 'center', 
+                'color': '#507d50',
+                'fontFamily': 'Arial, sans-serif',
+                'marginTop': '20px',
+                'marginBottom': '5px',
+                'fontSize': '30px',
+                'fontWeight': 'bold',
+                'textShadow': '1px 1px #000'
+            }),  
+    html.Div([
+        dcc.Graph(id='graph'),
+        html.Div([
+            html.Label('Carbon Intensity (gCO2/kWh): ', style={'fontSize': 20}),
+            dcc.Input(id='carbon-intensity-input', type='number', value=400, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),  # Add marginBottom here
+            html.Br(),
+            html.Label('Power Consumption of Old Hardware (W): ', style={'fontSize': 20, 'marginTop': '20px'}),
+            dcc.Input(id='old-power-input', type='number', value=200, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+            html.Br(),
+            html.Label('Power Consumption of New Hardware (W): ', style={'fontSize': 20, 'marginTop': '20px'}),
+            dcc.Input(id='new-power-input', type='number', value=160, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+            html.Br(),
+            html.Label('Embodied Carbon of New Hardware (gCO2): ', style={'fontSize': 20, 'marginTop': '20px'}),
+            dcc.Input(id='embodied-carbon-input', type='number', value=24684, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+            html.Br(),
+            html.Label('Daily Usage Ratio: ', style={'fontSize': 20, 'marginTop': '20px'}),
+            dcc.Input(id='usage-input', type='number', value=0.4, style={'height': '30px', 'width': '40px', 'marginBottom': '20px'}),
+
+        ], style={'marginLeft': '0px', 'marginTop': '100px'}),
+    ], style={'display': 'flex'})
 ])
 
 @app.callback(Output('graph', 'figure'),
-                [Input('interval-component', 'n_intervals')])
-def update_graph(n):
-    per_day_candle=[100*((operational_p100_v100_candle_p100*400*i)-(operational_p100_v100_candle_v100*400*i + embodied_v100))/(operational_p100_v100_candle_p100*400*i)  for i in range(1,2000)]
+              [Input('carbon-intensity-input', 'value'),
+               Input('embodied-carbon-input', 'value'),
+               Input('old-power-input', 'value'),
+               Input('new-power-input', 'value'),
+               Input('usage-input', 'value')])
+def update_graph(carbon_intensity, embodied_carbon_new, old_power_Watt, new_power_Watt, daily_usage_ratio):
+    operation_carbon_old_per_day = old_power_Watt * 24 / 1000 * daily_usage_ratio
+    operation_carbon_new_per_day = new_power_Watt * 24 / 1000 * daily_usage_ratio
+    per_day_carbon_save = [100*((operation_carbon_old_per_day*carbon_intensity*i)-(operation_carbon_new_per_day*carbon_intensity*i + embodied_carbon_new))/(operation_carbon_old_per_day*carbon_intensity*i)  for i in range(1,2000)]
     fig = go.Figure()
-    for i in range(-60, 41):  # fill the background with light green above y=0 and light red below y=0
+    for i in range(-150, 151):  # fill the background with light green above y=0 and light red below y=0
         if i < 0:
-            fig.add_trace(go.Scatter(x=[0, 2000], y=[i, i], fill='tonexty', fillcolor='rgba(255, 182, 193, 0.15)', line_width=0))  # light red
+            fig.add_trace(go.Scatter(x=[-21, 2000], y=[i, i], fill='tonexty', fillcolor='rgba(255, 182, 193, 0.15)', line_width=0))  # light red
         else:
-            fig.add_trace(go.Scatter(x=[0, 2000], y=[i, i], fill='tonexty', fillcolor='rgba(144, 238, 144, 0.15)', line_width=0))  # light green
-    fig.add_trace(go.Scatter(x=list(range(1,2000)), y=per_day_candle, line=dict(color='#cc4778', width=4)))  # add the main line
+            fig.add_trace(go.Scatter(x=[-21, 2000], y=[i, i], fill='tonexty', fillcolor='rgba(144, 238, 144, 0.15)', line_width=0))  # light green
+    fig.add_trace(go.Scatter(x=list(range(1,2000)), y=per_day_carbon_save, line=dict(color='#cc4778', width=4)))  # add the main line
     fig.update_layout(
-        title_text="Carbon Intensity",
-        xaxis_title="Days",
-        yaxis_title="Carbon Emissions Reduction (%)",
+        autosize=False,
+        width=1200,
+        height=800,
+        title_text=f"Carbon Intensity: {carbon_intensity} gCO2/kWh",
+        xaxis_title="Time of Operation (Years) After Upgrade",
+        yaxis_title="Carbon Footprint Saving (%) with Upgrade",
         font=dict(
             family="Courier New, monospace",
             size=18,
             color="RebeccaPurple"
         ),
-        showlegend=False
+        showlegend=False,
+        xaxis = dict(
+            tickmode = 'array',
+            tickvals = [-10,365,365*2,365*3,365*4, 365*5],
+            ticktext = ['0', '1', '2', '3', '4','5']
+        )
     )
-    fig.update_yaxes(range=[-60, 40])  # set the y-axis limits
-    fig.update_xaxes(range=[30, 365*5])
+    fig.update_yaxes(range=[-60, 60])  # set the y-axis limits
+    fig.update_xaxes(range=[-10, 365*5])
     fig.add_shape(type="line", line=dict(dash='dash'), x0=0, x1=2000, y0=0, y1=0)  # add a dashed line at y=0
     return fig
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8080)
+    app.run_server(debug=False, port=8080)
 
