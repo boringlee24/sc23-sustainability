@@ -1,6 +1,16 @@
 # Sustainable HPC: Modeling, Characterization, and Implications of Carbon Footprint in Modern HPC Systems
 
-## Paper Result Visualization
+## Benchmarks
+
+We set up three sets of benchmarks to evaluate the carbon and performance on three different application scenarios: CV, NLP, and HPC. These benchmarks are made available in these repositories:
+
+- Computer Vision: [CV](https://github.com/boringlee24/examples)
+- Natural Language Processing: [NLP](https://github.com/boringlee24/transformers)
+- High Performance Computing: [CANDLE](https://github.com/boringlee24/candle_benchmarks)
+
+The data used to generate the performance and operation carbon results are collected from running these benchmarks.
+
+## Result Visualization
 
 ### Environment setup
 
@@ -24,7 +34,7 @@ The number of devices of individual components from supercomputers are obtained 
 [Perlmutter](https://docs.nersc.gov/systems/perlmutter/architecture/)
 [Frontier](https://olcf.ornl.gov/wp-content/uploads/Frontiers-Architecture-Frontier-Training-Series-final.pdf)
 
-The visualization scripts are provided in ``figure_<topic>.ipynb`` files. 
+The visualization scripts are provided in ``figure_<topic>.ipynb`` files. For example, ``figure_embodied.ipynb`` shows the visualization of embodied carbon of individual components.
 
 ### Regional Operational Carbon
 
@@ -34,10 +44,17 @@ cd ../regional_operational_carbon
 
 The regional carbon intensity data are collected in the ``csv`` directory. The ``regional_carbon.ipynb`` notebook shows the visualization of regional carbon intensities.
 
-### Combined Carbon
+### Combined Carbon Tradeoff in Hardware Upgrade
 
 ```
 cd ../combined_carbon
 ```
 
 The visualization of hardware upgrade impact on carbon saving are in ``part1.ipynb`` and ``part2.ipynb``
+
+#### Dashboard
+
+We create a web dashboard to allow users to interactively explore the embodied carbon and operational carbon tradeoffs. To run the dashboard, execute
+```
+python dashboard.py
+```
