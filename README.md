@@ -58,3 +58,6 @@ We create a web dashboard to allow users to interactively explore the embodied c
 ```
 python dashboard.py
 ```
+The dashboard is available at http://127.0.0.1:8080/
+
+The user can provide their measurements on the old and new hardware, and the dashboard will show the carbon saving over time from the hardware upgrade.
