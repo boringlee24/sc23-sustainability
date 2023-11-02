@@ -1,6 +1,6 @@
 import dash
 from dash import html, dcc
-from dash.dependencies import Output, Input
+from dash.dependencies import Output, Input, State
 import plotly.graph_objects as go
 
 app = dash.Dash(__name__)
@@ -35,18 +35,34 @@ app.layout = html.Div([
             html.Br(),
             html.Label('Daily Usage Ratio: ', style={'fontSize': 20, 'marginTop': '20px'}),
             dcc.Input(id='usage-input', type='number', value=0.4, style={'height': '30px', 'width': '60px', 'marginBottom': '20px'}),
-
+            html.Br(),
+            html.Button('Update', id='update-button', n_clicks=0, style={
+                'backgroundColor': 'navy',
+                'border': '2px solid black',
+                'color': 'white',
+                'padding': '32px 32px',
+                'textAlign': 'center',
+                'textDecoration': 'none',
+                'display': 'inline-block',
+                'fontSize': '22px',
+                'margin': '60px 130px',
+                'cursor': 'pointer',
+                'borderRadius': '50%'
+            })
         ], style={'marginLeft': '0px', 'marginTop': '100px'}),
     ], style={'display': 'flex'})
 ])
 
-@app.callback(Output('graph', 'figure'),
-              [Input('carbon-intensity-input', 'value'),
-               Input('embodied-carbon-input', 'value'),
-               Input('old-power-input', 'value'),
-               Input('new-power-input', 'value'),
-               Input('usage-input', 'value')])
-def update_graph(carbon_intensity, embodied_carbon_new, old_power_Watt, new_power_Watt, daily_usage_ratio):
+@app.callback(
+    Output('graph', 'figure'),
+    [Input('update-button', 'n_clicks')],
+    [State('carbon-intensity-input', 'value'),
+     State('old-power-input', 'value'),
+     State('new-power-input', 'value'),
+     State('embodied-carbon-input', 'value'),
+     State('usage-input', 'value')]
+)
+def update_graph(n_clicks, carbon_intensity, old_power_Watt, new_power_Watt, embodied_carbon_new, daily_usage_ratio):
     operation_carbon_old_per_day = old_power_Watt * 24 / 1000 * daily_usage_ratio
     operation_carbon_new_per_day = new_power_Watt * 24 / 1000 * daily_usage_ratio
     per_day_carbon_save = [100*((operation_carbon_old_per_day*carbon_intensity*i)-(operation_carbon_new_per_day*carbon_intensity*i + embodied_carbon_new))/(operation_carbon_old_per_day*carbon_intensity*i)  for i in range(1,2000)]
@@ -73,8 +89,10 @@ def update_graph(carbon_intensity, embodied_carbon_new, old_power_Watt, new_powe
         xaxis = dict(
             tickmode = 'array',
             tickvals = [-10,365,365*2,365*3,365*4, 365*5],
-            ticktext = ['0', '1', '2', '3', '4','5']
-        )
+            ticktext = ['0', '1', '2', '3', '4','5'],
+            gridcolor='lightgray',
+        ),
+        yaxis=dict(gridcolor='lightgray')
     )
     fig.update_yaxes(range=[-60, 60])  # set the y-axis limits
     fig.update_xaxes(range=[-10, 365*5])
