@@ -1,4 +1,18 @@
-# Sustainable HPC: Modeling, Characterization, and Implications of Carbon Footprint in Modern HPC Systems
+# Toward Sustainable HPC: Carbon Footprint Estimation and Environmental Implications of HPC Systems
+
+Paper at 2023 ACM/IEEE The International Conference for High Performance Computing, Networking, Storage, and Analysis (SC'23)
+
+## Citation
+
+```
+@inproceedings{li2023toward,
+  title={Toward Sustainable HPC: Carbon Footprint Estimation and Environmental Implications of HPC Systems},
+  author={Li, Baolin and Basu Roy, Rohan and Wang, Daniel and Samsi, Siddharth and Gadepally, Vijay and Tiwari, Devesh},
+  booktitle={Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis},
+  pages={1--15},
+  year={2023}
+}
+```
 
 ## Benchmarks
 
