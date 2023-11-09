@@ -78,3 +78,14 @@ cd ../regional_operational_carbon
 
 The regional carbon intensity data are collected in the ``csv`` directory. The ``regional_carbon.ipynb`` notebook shows the visualization of regional carbon intensities.
 
+## Contact
+
+Baolin Li: https://baolin-li.netlify.app/
+
+## Carbon-Aware Scheduler
+
+In addition to the characterization and analysis, we also designed a carbon-aware schduler named Clover: [Code](https://github.com/boringlee24/sc23-clover), [Paper](https://dl.acm.org/doi/abs/10.1145/3581784.3607034)
+
+## Call for contribution
+
+We welcome contributions to this repository, especially additional embodied carbon data for different components in addition to our embodied carbon data in [embodied_carbon_by_component.csv](embodied_carbon/csv/embodied_carbon_by_component.csv). 
