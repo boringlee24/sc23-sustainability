@@ -78,6 +78,8 @@ cd ../regional_operational_carbon
 
 The regional carbon intensity data are collected in the ``csv`` directory. The ``regional_carbon.ipynb`` notebook shows the visualization of regional carbon intensities.
 
+Credit to Rohan Basu Roy for creating the Jupyter Notebook plotting scripts.
+
 ## Contact
 
 Baolin Li: https://baolin-li.netlify.app/
